@@ -1,0 +1,19 @@
+# RoyScript Contact API — single service.
+#
+# Postgres is intentionally NOT defined here: it runs on the HOST machine.
+# `network_mode: host` lets this container reach host Postgres on
+# 127.0.0.1:5432, and makes the app bind host 127.0.0.1:3000 directly.
+#
+# Notes:
+#  - With network_mode: host you do NOT (and cannot) use a `ports:` mapping;
+#    the app binds the host port directly, driven by HOST/PORT in .env.
+#  - The container HEALTHCHECK is inherited from the Dockerfile.
+
+services:
+  api:
+    build: .
+    image: royscript-contact-api:latest
+    container_name: royscript-contact-api
+    network_mode: host
+    env_file: .env
+    restart: unless-stopped
